@@ -1,20 +1,17 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
+import { Roboto_Flex } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
+import React, { ReactNode } from "react";
+import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Roboto_Flex({ subsets: ["latin"], weight: "400" });
 
 export const metadata: Metadata = {
   title: "GenieAI",
   description: "An AI Platform",
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+const RootLayout = ({ children }: Readonly<{ children: ReactNode }>) => {
   return (
     <ClerkProvider>
       <html lang="en">
@@ -22,4 +19,6 @@ export default function RootLayout({
       </html>
     </ClerkProvider>
   );
-}
+};
+
+export default RootLayout;
