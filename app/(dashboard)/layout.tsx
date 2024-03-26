@@ -9,7 +9,7 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
         <Sidebar />
       </div>
 
-      <main className="py-5">
+      <main className="py-5 w-full">
         <Topbar />
         {children}
       </main>
