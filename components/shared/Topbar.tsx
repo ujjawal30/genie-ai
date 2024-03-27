@@ -1,15 +1,58 @@
+"use client";
+
+import React, { useEffect, useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
 import { UserButton } from "@clerk/nextjs";
 import { Menu } from "lucide-react";
+import { Montserrat } from "next/font/google";
+
+import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import React from "react";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import Sidebar from "@/components/shared/Sidebar";
+
+const montserrat = Montserrat({
+  weight: "600",
+  subsets: ["latin"],
+});
 
 const Topbar = () => {
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) {
+    return null;
+  }
+
   return (
-    <nav className="flex p-4">
-      <Button variant={"default"} size={"icon"} className="md:hidden">
-        <Menu />
-      </Button>
-      <div className="w-full flex justify-end">
+    <nav className="flex justify-between items-center p-4">
+      <Sheet>
+        <SheetTrigger>
+          <Button variant="ghost" size="icon" className="md:hidden">
+            <Menu />
+          </Button>
+        </SheetTrigger>
+        <SheetContent side="left" className="p-0 w-fit border-none text-white">
+          <Sidebar />
+        </SheetContent>
+      </Sheet>
+
+      <Link
+        href="/dashboard"
+        className={cn(
+          "flex items-center gap-2 md:hidden",
+          montserrat.className
+        )}
+      >
+        <Image src="/logo.png" alt="logo" width={40} height={40} />
+        <h1 className="font-bold text-2xl">GenieAI</h1>
+      </Link>
+
+      <div className="md:w-full md:flex md:justify-end">
         <UserButton afterSignOutUrl="/" />
       </div>
     </nav>

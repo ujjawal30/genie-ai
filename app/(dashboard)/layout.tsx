@@ -5,7 +5,7 @@ import React, { ReactNode } from "react";
 const DashboardLayout = ({ children }: { children: ReactNode }) => {
   return (
     <div className="flex flex-row">
-      <section className="max-md:hidden">
+      <section className="h-screen max-md:hidden">
         <Sidebar />
       </section>
 

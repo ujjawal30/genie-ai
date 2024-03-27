@@ -16,7 +16,7 @@ const montserrat = Montserrat({
 
 const Sidebar = () => {
   return (
-    <div className="sticky left-0 top-0 z-20 w-72 h-screen overflow-auto flex flex-col bg-gray-900 text-white py-5">
+    <div className="sticky left-0 top-0 w-72 h-full overflow-auto flex flex-col bg-gray-900 text-white py-5">
       <div className="flex-1 py-2 px-4">
         <Link
           href="/dashboard"
