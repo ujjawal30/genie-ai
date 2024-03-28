@@ -35,7 +35,7 @@ const Sidebar = () => {
               key={route.label}
               className={cn(
                 "text-sm p-3 w-full flex justify-start font-medium cursor-pointer hover:text-blue-500 hover:bg-white/10 rounded-lg transition",
-                pathname === route.href && "bg-white/10"
+                pathname === route.href && "bg-white/10 text-blue-500"
               )}
             >
               <div className="flex items-center gap-2">
