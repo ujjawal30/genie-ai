@@ -8,12 +8,7 @@ import {
   VideoIcon,
 } from "lucide-react";
 
-export const sidebarRoutes = [
-  {
-    label: "Dashboard",
-    icon: LayoutDashboard,
-    href: "/dashboard",
-  },
+export const availableTools = [
   {
     label: "Conversation",
     icon: MessageSquare,
@@ -39,6 +34,15 @@ export const sidebarRoutes = [
     icon: Code,
     href: "/code",
   },
+];
+
+export const sidebarRoutes = [
+  {
+    label: "Dashboard",
+    icon: LayoutDashboard,
+    href: "/dashboard",
+  },
+  ...availableTools,
   {
     label: "Settings",
     icon: Settings,
