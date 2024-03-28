@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Home } from "lucide-react";
 import { Montserrat } from "next/font/google";
+import { usePathname } from "next/navigation";
 
 import { cn } from "@/lib/utils";
 import { sidebarRoutes } from "@/constants";
@@ -15,6 +16,8 @@ const montserrat = Montserrat({
 });
 
 const Sidebar = () => {
+  const pathname = usePathname();
+
   return (
     <div className="sticky left-0 top-0 w-72 h-full overflow-auto flex flex-col bg-gray-900 text-white py-5">
       <div className="flex-1 py-2 px-4">
@@ -30,7 +33,10 @@ const Sidebar = () => {
             <Link
               href={route.href}
               key={route.label}
-              className="text-sm p-3 w-full flex justify-start font-medium cursor-pointer hover:text-blue-500 hover:bg-white/10 rounded-lg transition"
+              className={cn(
+                "text-sm p-3 w-full flex justify-start font-medium cursor-pointer hover:text-blue-500 hover:bg-white/10 rounded-lg transition",
+                pathname === route.href && "bg-white/10"
+              )}
             >
               <div className="flex items-center gap-2">
                 <route.icon size={24} />
