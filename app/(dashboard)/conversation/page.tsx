@@ -3,7 +3,10 @@
 import PromptForm from "@/components/forms/PromptForm";
 import Header from "@/components/shared/Header";
 import NoContent from "@/components/shared/NoContent";
+import { AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
+import { useUser } from "@clerk/nextjs";
+import { Avatar } from "@radix-ui/react-avatar";
 import { MessageSquare } from "lucide-react";
 import React, { useState } from "react";
 
@@ -19,7 +22,9 @@ const smapleMessages = [
 ];
 
 const ConversationPage = () => {
-  const [messages, setMessages] = useState<typeof smapleMessages>([]);
+  const [messages, setMessages] =
+    useState<typeof smapleMessages>(smapleMessages);
+  const { user } = useUser();
 
   const handleSubmit = async (prompt: string): Promise<void> => {
     console.log("propmt :>> ", prompt);
@@ -51,7 +56,12 @@ const ConversationPage = () => {
                     : "bg-muted"
                 )}
               >
-                {/* {message.role === "user" ? <UserAvatar /> : <BotAvatar />} */}
+                <Avatar className="h-12 w-12 rounded-lg">
+                  <AvatarImage
+                    src={message.role === "User" ? user?.imageUrl : "/logo.png"}
+                    className="rounded-xl"
+                  />
+                </Avatar>
                 <p className="text-sm">{message.content}</p>
               </div>
             ))}
