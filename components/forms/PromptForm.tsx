@@ -2,12 +2,13 @@
 
 import { PromptValidation } from "@/lib/validations/prompt";
 import { zodResolver } from "@hookform/resolvers/zod";
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
+import { Loader } from "../ui/loader";
 
 interface PromptFormProps {
   placeholder: string;
@@ -51,7 +52,10 @@ const PromptForm = ({ placeholder, onSubmit }: PromptFormProps) => {
             </FormItem>
           )}
         />
-        <Button className="col-span-12 lg:col-span-2">Generate</Button>
+        <Button disabled={isLoading} className="col-span-12 lg:col-span-2">
+          {isLoading && <Loader size={16} className="mr-2" />}
+          {isLoading ? "Generating" : "Generate"}
+        </Button>
       </form>
     </Form>
   );
