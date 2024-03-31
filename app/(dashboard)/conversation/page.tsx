@@ -1,14 +1,14 @@
 "use client";
 
+import React, { useState } from "react";
+import { useUser } from "@clerk/nextjs";
+import { MessageSquare } from "lucide-react";
+
 import PromptForm from "@/components/forms/PromptForm";
 import Header from "@/components/shared/Header";
 import NoContent from "@/components/shared/NoContent";
-import { AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
-import { useUser } from "@clerk/nextjs";
-import { Avatar } from "@radix-ui/react-avatar";
-import { MessageSquare } from "lucide-react";
-import React, { useState } from "react";
 
 const smapleMessages = [
   {
