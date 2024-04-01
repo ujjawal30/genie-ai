@@ -35,7 +35,7 @@ const CodeGenerationPage = () => {
     <div className="px-4 lg:px-8 ">
       <Header
         title="Code Generation"
-        description="Our most advanced conversation model ever."
+        description="Our most advanced code generation model ever."
         icon={Code}
       />
 
