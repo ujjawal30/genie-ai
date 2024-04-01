@@ -16,6 +16,9 @@ const ImageGenerationPage = () => {
   const [images, setImages] = useState<string[]>([
     "https://www.freepnglogos.com/uploads/512x512-logo/512x512-transparent-logo-download-instagram-logo-icon-png-transparent-image-11.png",
     "https://www.freepnglogos.com/uploads/512x512-logo/512x512-transparent-logo-download-instagram-logo-icon-png-transparent-image-11.png",
+    "https://www.freepnglogos.com/uploads/512x512-logo/512x512-transparent-logo-download-instagram-logo-icon-png-transparent-image-11.png",
+    "https://www.freepnglogos.com/uploads/512x512-logo/512x512-transparent-logo-download-instagram-logo-icon-png-transparent-image-11.png",
+    "https://www.freepnglogos.com/uploads/512x512-logo/512x512-transparent-logo-download-instagram-logo-icon-png-transparent-image-11.png",
   ]);
 
   const handleSubmit = async (
@@ -43,7 +46,7 @@ const ImageGenerationPage = () => {
       <div className="mt-8 space-y-2">
         <div className="space-y-4 mt-4">
           {images.length === 0 && <NoContent label="No images generated." />}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 mt-8">
             {images.map((image, index) => (
               <Card key={image} className="rounded-lg overflow-hidden">
                 <div className="relative aspect-square">

@@ -31,7 +31,7 @@ const VideoGenerationPage = () => {
           {video ? (
             <video
               controls
-              className="w-full aspect-video rounded-lg border bg-black"
+              className="w-full xl:w-[70%] m-auto aspect-video rounded-lg border bg-black"
               src={video}
             ></video>
           ) : (

@@ -4,12 +4,12 @@ import React, { ReactNode } from "react";
 
 const DashboardLayout = ({ children }: { children: ReactNode }) => {
   return (
-    <div className="flex flex-row">
-      <section className="h-screen max-md:hidden">
+    <div className="h-screen flex flex-row overflow-hidden">
+      <section className="max-md:hidden">
         <Sidebar />
       </section>
 
-      <main className="py-5 w-full">
+      <main className="py-5 w-full overflow-auto">
         <Topbar />
         {children}
       </main>
