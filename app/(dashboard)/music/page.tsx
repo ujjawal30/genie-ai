@@ -1,10 +1,11 @@
 "use client";
 
+import React, { useState } from "react";
+import { Music } from "lucide-react";
+
 import PromptForm from "@/components/forms/PromptForm";
 import Header from "@/components/shared/Header";
 import NoContent from "@/components/shared/NoContent";
-import { Music } from "lucide-react";
-import React, { useState } from "react";
 
 const MusicGenerationPage = () => {
   const [music, setMusic] = useState<string>(
