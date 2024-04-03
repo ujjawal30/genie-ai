@@ -7,7 +7,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "www.freepnglogos.com",
+        hostname: "oaidalleapiprodscus.blob.core.windows.net",
       },
     ],
   },

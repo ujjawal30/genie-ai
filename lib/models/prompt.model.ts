@@ -4,7 +4,8 @@ export interface IPrompt extends Document {
   prompt: string;
   type: "Conversation" | "Image" | "Video" | "Music" | "Code";
   response: string;
-  media: string[];
+  images: string[];
+  media: string;
   userId: string;
   createdAt: Date;
 }
@@ -14,9 +15,11 @@ const promptSchema = new Schema<IPrompt>({
   type: {
     type: String,
     enum: ["Conversation", "Image", "Video", "Music", "Code"],
+    required: true,
   },
   response: String,
-  media: [String],
+  images: [String],
+  media: String,
   userId: { type: String, required: true },
   createdAt: { type: Date, default: Date.now },
 });
