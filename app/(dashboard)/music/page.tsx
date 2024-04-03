@@ -79,7 +79,7 @@ const MusicGenerationPage = () => {
                   <Avatar className="h-10 w-10 rounded-lg">
                     <AvatarImage src={user?.imageUrl} className="rounded-xl" />
                   </Avatar>
-                  <p className="text-sm">{response.prompt}</p>
+                  <p className="font-semibold">{response.prompt}</p>
                 </div>
                 <div className="flex items-start bg-white gap-x-8 p-4">
                   <Avatar className="h-10 w-10 rounded-lg">
