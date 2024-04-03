@@ -9,6 +9,7 @@ import Header from "@/components/shared/Header";
 import NoContent from "@/components/shared/NoContent";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
+import { incrementAPIHit } from "@/lib/actions";
 
 const smapleMessages = [
   {
@@ -31,6 +32,7 @@ const ConversationPage = () => {
 
   const handleSubmit = async (prompt: string): Promise<void> => {
     console.log("propmt :>> ", prompt);
+    await incrementAPIHit();
   };
 
   return (
