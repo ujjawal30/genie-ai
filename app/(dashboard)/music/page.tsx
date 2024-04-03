@@ -1,37 +1,63 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Music } from "lucide-react";
+import { useUser } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
+import axios from "axios";
 
+import { MediaResponse } from "@/type";
 import PromptForm from "@/components/forms/PromptForm";
 import Header from "@/components/shared/Header";
 import NoContent from "@/components/shared/NoContent";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
-import { useUser } from "@clerk/nextjs";
-
-const sampleMusicResponse = [
-  {
-    prompt: "What is the name of this song?",
-    music:
-      "https://commondatastorage.googleapis.com/codeskulptor-demos/DDR_assets/Kangaroo_MusiQue_-_The_Neverwritten_Role_Playing_Game.mp3",
-  },
-];
+import { Loader } from "@/components/ui/loader";
 
 const MusicGenerationPage = () => {
+  const router = useRouter();
   const { user } = useUser();
 
-  const [musicResponse, setMusicResponse] =
-    useState<typeof sampleMusicResponse>(sampleMusicResponse);
+  const [musicResponses, setMusicResponses] = useState<MediaResponse[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    fetchUserMusicResponses();
+  }, []);
+
+  const fetchUserMusicResponses = async () => {
+    try {
+      const response = await axios.get("/api/music");
+
+      setMusicResponses(response.data);
+      setIsLoading(false);
+    } catch (error: any) {
+      console.log(error);
+    }
+  };
 
   const handleSubmit = async (prompt: string): Promise<void> => {
-    console.log("music propmt :>> ", prompt);
+    const currentMusicResponses = musicResponses;
+
+    setMusicResponses([...currentMusicResponses, { prompt, media: "" }]);
+
+    try {
+      const conversationResponse = await axios.post("/api/music/generate", {
+        prompt,
+      });
+
+      setMusicResponses([...currentMusicResponses, conversationResponse.data]);
+    } catch (error: any) {
+      console.log(error);
+    } finally {
+      router.refresh();
+    }
   };
 
   return (
     <div className="px-4 lg:px-8 ">
       <Header
         title="Music Generation"
-        description="Our most advanced music generation model ever."
+        description="Turn your thoughts into melodies."
         icon={Music}
       />
 
@@ -39,11 +65,12 @@ const MusicGenerationPage = () => {
 
       <div className="mt-8 space-y-2">
         <div className="space-y-4 mt-4">
-          {musicResponse.length === 0 && (
+          {isLoading && <Loader className="m-auto" size={48} />}
+          {musicResponses.length === 0 && !isLoading && (
             <NoContent label="No music generated." />
           )}
           <div className="flex flex-col-reverse gap-y-8">
-            {musicResponse.map((response) => (
+            {musicResponses.map((response) => (
               <div
                 key={response.prompt}
                 className="flex flex-col w-full rounded-lg border"
@@ -58,11 +85,15 @@ const MusicGenerationPage = () => {
                   <Avatar className="h-10 w-10 rounded-lg">
                     <AvatarImage src="/logo.png" className="rounded-xl" />
                   </Avatar>
-                  <audio
-                    controls
-                    className="w-full"
-                    src={response.music}
-                  ></audio>
+                  {response.media ? (
+                    <audio
+                      controls
+                      className="w-full"
+                      src={response.media}
+                    ></audio>
+                  ) : (
+                    <p>Genie is composing...</p>
+                  )}
                 </div>
               </div>
             ))}

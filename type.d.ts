@@ -6,11 +6,7 @@ export interface ImageResponse {
   prompt: string;
   images?: string[];
 }
-export interface MusicResponse {
+export interface MediaResponse {
   prompt: string;
-  music?: string;
-}
-export interface VideoResponse {
-  prompt: string;
-  video?: string;
+  media?: string;
 }
