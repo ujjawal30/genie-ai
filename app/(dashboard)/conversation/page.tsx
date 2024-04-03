@@ -1,38 +1,57 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useUser } from "@clerk/nextjs";
 import { MessageSquare } from "lucide-react";
+import axios from "axios";
 
+import { TextResponse } from "@/type";
 import PromptForm from "@/components/forms/PromptForm";
 import Header from "@/components/shared/Header";
 import NoContent from "@/components/shared/NoContent";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
-import { cn } from "@/lib/utils";
-import { incrementAPIHit } from "@/lib/actions";
-
-const smapleMessages = [
-  {
-    prompt: "This is user input message 1",
-    response:
-      "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vel possimus similique, eos, non, iusto aspernatur quo reiciendis deserunt veritatis rerum explicabo accusantium. Doloremque culpa ipsa aut! Labore quia eius atque iste, perspiciatis aut, quasi quo rerum dolor reiciendis non quas blanditiis, quibusdam consequuntur fugiat nulla officia! Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vel possimus similique, eos, non, iusto aspernatur quo reiciendis deserunt veritatis rerum explicabo accusantium. Doloremque culpa ipsa aut! Labore quia eius atque iste, perspiciatis aut, quasi quo rerum dolor reiciendis non quas blanditiis, quibusdam consequuntur fugiat nulla officia! Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vel possimus similique, eos, non, iusto aspernatur quo reiciendis deserunt veritatis rerum explicabo accusantium. Doloremque culpa ipsa aut! Labore quia eius atque iste, perspiciatis aut, quasi quo rerum dolor reiciendis non quas blanditiis, quibusdam consequuntur fugiat nulla officia!",
-  },
-  {
-    prompt: "This is user input message 2",
-    response:
-      "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vel possimus similique, eos, non, iusto aspernatur quo reiciendis deserunt veritatis rerum explicabo accusantium. Doloremque culpa ipsa aut! Labore quia eius atque iste, perspiciatis aut, quasi quo rerum dolor reiciendis non quas blanditiis, quibusdam consequuntur fugiat nulla officia! Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vel possimus similique, eos, non, iusto aspernatur quo reiciendis deserunt veritatis rerum explicabo accusantium. Doloremque culpa ipsa aut! Labore quia eius atque iste, perspiciatis aut, quasi quo rerum dolor reiciendis non quas blanditiis, quibusdam consequuntur fugiat nulla officia!",
-  },
-];
+import { useRouter } from "next/navigation";
+import { Loader } from "@/components/ui/loader";
 
 const ConversationPage = () => {
+  const router = useRouter();
   const { user } = useUser();
 
-  const [messages, setMessages] =
-    useState<typeof smapleMessages>(smapleMessages);
+  const [messages, setMessages] = useState<TextResponse[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    fetchUserCoversation();
+  }, []);
+
+  const fetchUserCoversation = async () => {
+    try {
+      const response = await axios.get("/api/conversation");
+
+      setMessages(response.data);
+      setIsLoading(false);
+    } catch (error: any) {
+      console.log(error);
+    }
+  };
 
   const handleSubmit = async (prompt: string): Promise<void> => {
-    console.log("propmt :>> ", prompt);
-    await incrementAPIHit();
+    const currentMessages = messages;
+
+    setMessages([...currentMessages, { prompt, response: "" }]);
+
+    try {
+      const conversationResponse = await axios.post(
+        "/api/conversation/generate",
+        { prompt }
+      );
+
+      setMessages([...currentMessages, conversationResponse.data]);
+    } catch (error: any) {
+      console.log(error);
+    } finally {
+      router.refresh();
+    }
   };
 
   return (
@@ -47,7 +66,8 @@ const ConversationPage = () => {
 
       <div className="mt-8 space-y-2">
         <div className="space-y-4 mt-4">
-          {messages.length === 0 && (
+          {isLoading && <Loader className="m-auto" size={48} />}
+          {messages.length === 0 && !isLoading && (
             <NoContent label="No conversation started." />
           )}
           <div className="flex flex-col-reverse gap-y-8">
@@ -60,13 +80,15 @@ const ConversationPage = () => {
                   <Avatar className="h-10 w-10 rounded-lg">
                     <AvatarImage src={user?.imageUrl} className="rounded-xl" />
                   </Avatar>
-                  <p className="text-sm">{message.prompt}</p>
+                  <p className="font-semibold">{message.prompt}</p>
                 </div>
                 <div className="flex items-start bg-white gap-x-8 p-4">
                   <Avatar className="h-10 w-10 rounded-lg">
                     <AvatarImage src="/logo.png" className="rounded-xl" />
                   </Avatar>
-                  <p className="text-sm">{message.response}</p>
+                  <p className="">
+                    {message.response || "Genie is thinking..."}
+                  </p>
                 </div>
               </div>
             ))}
