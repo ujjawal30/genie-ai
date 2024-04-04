@@ -5,6 +5,7 @@ import { MAX_FREE_TRAILS } from "@/constants";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
+import useProModal from "@/hooks/useProModal";
 
 interface FreeCounterProps {
   apiLimitCounter: number;
@@ -12,6 +13,8 @@ interface FreeCounterProps {
 
 const FreeCounter = ({ apiLimitCounter }: FreeCounterProps) => {
   const [mounted, setMounted] = useState(false);
+
+  const { onOpen } = useProModal();
 
   useEffect(() => {
     setMounted(true);
@@ -31,7 +34,7 @@ const FreeCounter = ({ apiLimitCounter }: FreeCounterProps) => {
             value={(apiLimitCounter / MAX_FREE_TRAILS) * 100}
           />
         </div>
-        <Button className="w-full">
+        <Button className="w-full" onClick={onOpen}>
           Upgrade <Zap size={16} className="ml-2" />
         </Button>
       </CardContent>
