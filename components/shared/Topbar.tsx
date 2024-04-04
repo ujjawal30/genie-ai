@@ -17,7 +17,11 @@ const montserrat = Montserrat({
   subsets: ["latin"],
 });
 
-const Topbar = () => {
+interface TopbarProps {
+  apiLimitCount: number;
+}
+
+const Topbar = ({ apiLimitCount }: TopbarProps) => {
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
@@ -37,7 +41,7 @@ const Topbar = () => {
           </Button>
         </SheetTrigger>
         <SheetContent side="left" className="p-0 w-fit border-none text-white">
-          <Sidebar />
+          <Sidebar apiLimitCount={apiLimitCount} />
         </SheetContent>
       </Sheet>
 

@@ -6,7 +6,6 @@ import { fetchUser } from "@/lib/actions";
 
 const DashboardLayout = async ({ children }: { children: ReactNode }) => {
   const userDetails = await fetchUser();
-  console.log("userDetails :>> ", userDetails);
 
   return (
     <div className="h-screen flex flex-row overflow-hidden">
@@ -15,7 +14,7 @@ const DashboardLayout = async ({ children }: { children: ReactNode }) => {
       </section>
 
       <main className="py-5 w-full overflow-auto">
-        <Topbar />
+        <Topbar apiLimitCount={userDetails?.limit} />
         {children}
       </main>
     </div>
