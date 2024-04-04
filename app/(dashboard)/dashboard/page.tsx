@@ -24,6 +24,7 @@ const DashboardPage = () => {
       <div className="px-4 md:px-20 lg:px-32 space-y-4">
         {availableTools.map((tool) => (
           <Card
+            key={tool.label}
             className="p-4 border-black/10 flex items-center justify-between hover:shadow-md transition cursor-pointer"
             onClick={() => router.push(tool.href)}
           >
