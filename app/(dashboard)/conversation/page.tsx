@@ -49,6 +49,7 @@ const ConversationPage = () => {
       setMessages([...currentMessages, conversationResponse.data]);
     } catch (error: any) {
       console.log(error);
+      setMessages(currentMessages);
     } finally {
       router.refresh();
     }

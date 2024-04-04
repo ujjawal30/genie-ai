@@ -2,7 +2,10 @@ import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs";
 import OpenAI, { ClientOptions } from "openai";
 
-import { incrementAPIHit } from "@/lib/actions";
+import {
+  checkFreeTrailAvailability,
+  incrementFreeTrailCount,
+} from "@/lib/actions";
 import Prompt from "@/lib/models/prompt.model";
 
 const openAIOptions: ClientOptions = {
@@ -23,6 +26,11 @@ export async function POST(req: Request) {
     if (!prompt)
       return new NextResponse("Please provide prompt", { status: 400 });
 
+    const isFreeTrailAvailable = await checkFreeTrailAvailability();
+    if (!isFreeTrailAvailable) {
+      return new NextResponse("Free trails exhausted", { status: 403 });
+    }
+
     const response = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
       messages: [
@@ -38,7 +46,7 @@ export async function POST(req: Request) {
       response: response.choices[0].message.content,
     };
 
-    await incrementAPIHit();
+    await incrementFreeTrailCount();
 
     await Prompt.create({
       userId: userId,

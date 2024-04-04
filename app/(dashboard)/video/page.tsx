@@ -48,6 +48,7 @@ const VideoGenerationPage = () => {
       setVideoResponses([...currentVideoResponses, conversationResponse.data]);
     } catch (error: any) {
       console.log(error);
+      setVideoResponses(currentVideoResponses);
     } finally {
       router.refresh();
     }

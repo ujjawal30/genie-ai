@@ -57,6 +57,7 @@ const ImageGenerationPage = () => {
       setImagesResponse([...currentImageResponses, imagesResponseData.data]);
     } catch (error: any) {
       console.log(error);
+      setImagesResponse(currentImageResponses);
     } finally {
       router.refresh();
     }

@@ -50,4 +50,4 @@ export const sidebarRoutes = [
   },
 ];
 
-export const MAX_FREE_COUNTS = 5;
+export const MAX_FREE_TRAILS = 5;

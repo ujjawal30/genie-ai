@@ -4,7 +4,7 @@ import { auth } from "@clerk/nextjs";
 
 import connectToDB from "@/lib/mongoose";
 import User, { IUser } from "@/lib/models/user.model";
-import { MAX_FREE_COUNTS } from "@/constants";
+import { MAX_FREE_TRAILS } from "@/constants";
 
 export const fetchUser = async (): Promise<IUser> => {
   try {
@@ -28,7 +28,7 @@ export const fetchUser = async (): Promise<IUser> => {
   }
 };
 
-export const incrementAPIHit = async (): Promise<void> => {
+export const incrementFreeTrailCount = async (): Promise<void> => {
   const { userId } = auth();
   try {
     await connectToDB();
@@ -40,17 +40,17 @@ export const incrementAPIHit = async (): Promise<void> => {
   }
 };
 
-export const checkFreeHitsAvailability = async (): Promise<boolean> => {
+export const checkFreeTrailAvailability = async (): Promise<boolean> => {
   try {
     await connectToDB();
 
     const userDetails = await fetchUser();
 
-    if (userDetails && userDetails.limit <= MAX_FREE_COUNTS) return true;
+    if (!userDetails || userDetails.limit < MAX_FREE_TRAILS) return true;
 
     return false;
   } catch (error: any) {
-    console.log("[API_INCREMENT_ERROR] :>>", error);
+    console.log("[CHECK_FREE_TRAIL_ERROR] :>>", error);
     throw error;
   }
 };

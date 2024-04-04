@@ -48,6 +48,7 @@ const MusicGenerationPage = () => {
       setMusicResponses([...currentMusicResponses, conversationResponse.data]);
     } catch (error: any) {
       console.log(error);
+      setMusicResponses(currentMusicResponses);
     } finally {
       router.refresh();
     }

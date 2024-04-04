@@ -2,7 +2,10 @@ import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs";
 import Replicate from "replicate";
 
-import { incrementAPIHit } from "@/lib/actions";
+import {
+  checkFreeTrailAvailability,
+  incrementFreeTrailCount,
+} from "@/lib/actions";
 import Prompt from "@/lib/models/prompt.model";
 
 const replicate = new Replicate({
@@ -19,6 +22,11 @@ export async function POST(req: Request) {
     if (!prompt)
       return new NextResponse("Please provide prompt", { status: 400 });
 
+    const isFreeTrailAvailable = await checkFreeTrailAvailability();
+    if (!isFreeTrailAvailable) {
+      return new NextResponse("Free trails exhausted", { status: 403 });
+    }
+
     const response: any = await replicate.run(
       "riffusion/riffusion:8cf61ea6c56afd61d8f5b9ffd14d7c216c0a93844ce2d82ac1c9ecc9c7f24e05",
       { input: { prompt_a: prompt } }
@@ -31,7 +39,7 @@ export async function POST(req: Request) {
       media: response.audio,
     };
 
-    await incrementAPIHit();
+    await incrementFreeTrailCount();
 
     await Prompt.create({
       userId: userId,

@@ -47,6 +47,7 @@ const CodeGenerationPage = () => {
       setCodeMessages([...currentCodeMessages, codeResponse.data]);
     } catch (error: any) {
       console.log(error);
+      setCodeMessages(currentCodeMessages);
     } finally {
       router.refresh();
     }
