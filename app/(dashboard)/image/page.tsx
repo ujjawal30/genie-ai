@@ -8,6 +8,7 @@ import { Download, ImageIcon } from "lucide-react";
 import { useUser } from "@clerk/nextjs";
 
 import { ImageResponse } from "@/type";
+import useProModal from "@/hooks/useProModal";
 import { Button } from "@/components/ui/button";
 import { Card, CardFooter } from "@/components/ui/card";
 import PromptForm from "@/components/forms/PromptForm";
@@ -19,6 +20,7 @@ import { Loader } from "@/components/ui/loader";
 const ImageGenerationPage = () => {
   const router = useRouter();
   const { user } = useUser();
+  const { onOpen } = useProModal();
 
   const [imagesResponse, setImagesResponse] = useState<ImageResponse[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -56,8 +58,9 @@ const ImageGenerationPage = () => {
 
       setImagesResponse([...currentImageResponses, imagesResponseData.data]);
     } catch (error: any) {
-      console.log(error);
       setImagesResponse(currentImageResponses);
+      console.log(error);
+      error?.response?.status === 403 && onOpen();
     } finally {
       router.refresh();
     }

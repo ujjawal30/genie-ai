@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 
 import { MediaResponse } from "@/type";
+import useProModal from "@/hooks/useProModal";
 import PromptForm from "@/components/forms/PromptForm";
 import Header from "@/components/shared/Header";
 import NoContent from "@/components/shared/NoContent";
@@ -16,6 +17,7 @@ import { Loader } from "@/components/ui/loader";
 const MusicGenerationPage = () => {
   const router = useRouter();
   const { user } = useUser();
+  const { onOpen } = useProModal();
 
   const [musicResponses, setMusicResponses] = useState<MediaResponse[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -47,8 +49,9 @@ const MusicGenerationPage = () => {
 
       setMusicResponses([...currentMusicResponses, conversationResponse.data]);
     } catch (error: any) {
-      console.log(error);
       setMusicResponses(currentMusicResponses);
+      console.log(error);
+      error?.response?.status === 403 && onOpen();
     } finally {
       router.refresh();
     }

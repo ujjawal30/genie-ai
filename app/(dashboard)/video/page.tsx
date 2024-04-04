@@ -7,6 +7,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 
 import { MediaResponse } from "@/type";
+import useProModal from "@/hooks/useProModal";
 import PromptForm from "@/components/forms/PromptForm";
 import Header from "@/components/shared/Header";
 import NoContent from "@/components/shared/NoContent";
@@ -16,6 +17,7 @@ import { Loader } from "@/components/ui/loader";
 const VideoGenerationPage = () => {
   const router = useRouter();
   const { user } = useUser();
+  const { onOpen } = useProModal();
 
   const [videoResponses, setVideoResponses] = useState<MediaResponse[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -47,8 +49,9 @@ const VideoGenerationPage = () => {
 
       setVideoResponses([...currentVideoResponses, conversationResponse.data]);
     } catch (error: any) {
-      console.log(error);
       setVideoResponses(currentVideoResponses);
+      console.log(error);
+      error?.response?.status === 403 && onOpen();
     } finally {
       router.refresh();
     }

@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import ReactMarkdown from "react-markdown";
 
 import { TextResponse } from "@/type";
+import useProModal from "@/hooks/useProModal";
 import PromptForm from "@/components/forms/PromptForm";
 import Header from "@/components/shared/Header";
 import NoContent from "@/components/shared/NoContent";
@@ -17,6 +18,7 @@ import { Loader } from "@/components/ui/loader";
 const CodeGenerationPage = () => {
   const router = useRouter();
   const { user } = useUser();
+  const { onOpen } = useProModal();
 
   const [codeMessages, setCodeMessages] = useState<TextResponse[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -46,8 +48,9 @@ const CodeGenerationPage = () => {
 
       setCodeMessages([...currentCodeMessages, codeResponse.data]);
     } catch (error: any) {
-      console.log(error);
       setCodeMessages(currentCodeMessages);
+      console.log(error);
+      error?.response?.status === 403 && onOpen();
     } finally {
       router.refresh();
     }

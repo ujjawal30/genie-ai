@@ -3,10 +3,11 @@
 import React, { useEffect, useState } from "react";
 import { useUser } from "@clerk/nextjs";
 import { MessageSquare } from "lucide-react";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 
 import { TextResponse } from "@/type";
+import useProModal from "@/hooks/useProModal";
 import PromptForm from "@/components/forms/PromptForm";
 import Header from "@/components/shared/Header";
 import NoContent from "@/components/shared/NoContent";
@@ -16,6 +17,7 @@ import { Loader } from "@/components/ui/loader";
 const ConversationPage = () => {
   const router = useRouter();
   const { user } = useUser();
+  const { onOpen } = useProModal();
 
   const [messages, setMessages] = useState<TextResponse[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -48,8 +50,9 @@ const ConversationPage = () => {
 
       setMessages([...currentMessages, conversationResponse.data]);
     } catch (error: any) {
-      console.log(error);
       setMessages(currentMessages);
+      console.log(error);
+      error?.response?.status === 403 && onOpen();
     } finally {
       router.refresh();
     }
