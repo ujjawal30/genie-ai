@@ -11,7 +11,7 @@ const DashboardLayout = async ({ children }: { children: ReactNode }) => {
   return (
     <div className="h-screen flex flex-row overflow-hidden">
       <section className="max-md:hidden">
-        <Sidebar />
+        <Sidebar apiLimitCount={userDetails?.limit} />
       </section>
 
       <main className="py-5 w-full overflow-auto">

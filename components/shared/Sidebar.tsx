@@ -3,19 +3,23 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Home } from "lucide-react";
 import { Montserrat } from "next/font/google";
 import { usePathname } from "next/navigation";
 
-import { cn } from "@/lib/utils";
 import { sidebarRoutes } from "@/constants";
+import { cn } from "@/lib/utils";
+import FreeCounter from "@/components/cards/FreeCounter";
 
 const montserrat = Montserrat({
   weight: "600",
   subsets: ["latin"],
 });
 
-const Sidebar = () => {
+interface SidebarProps {
+  apiLimitCount: number;
+}
+
+const Sidebar = ({ apiLimitCount = 0 }: SidebarProps) => {
   const pathname = usePathname();
 
   return (
@@ -47,17 +51,7 @@ const Sidebar = () => {
         </div>
       </div>
       <div className="py-2 px-4">
-        <div className="space-y-1">
-          <Link
-            href="/"
-            className="text-sm p-3 w-full flex justify-start font-medium cursor-pointer hover:text-blue-500 hover:bg-white/10 rounded-lg transition"
-          >
-            <div className="flex items-center gap-2">
-              <Home size={24} />
-              <p>Go to Landing Page</p>
-            </div>
-          </Link>
-        </div>
+        <FreeCounter apiLimitCounter={apiLimitCount} />
       </div>
     </div>
   );
