@@ -8,6 +8,7 @@ import { usePathname } from "next/navigation";
 
 import { sidebarRoutes } from "@/constants";
 import { cn } from "@/lib/utils";
+import { Badge } from "@/components/ui/badge";
 import FreeCounter from "@/components/cards/FreeCounter";
 
 const montserrat = Montserrat({
@@ -31,7 +32,10 @@ const Sidebar = ({ apiLimitCount = 0, isPro = false }: SidebarProps) => {
           className={cn("flex items-center gap-4 mb-12", montserrat.className)}
         >
           <Image src="/logo.png" alt="logo" width={48} height={48} />
-          <h1 className="font-bold text-3xl">GenieAI</h1>
+          <div className="flex items-center gap-2">
+            <h1 className="font-bold text-3xl">GenieAI</h1>
+            {isPro && <Badge className="text-sm">PRO</Badge>}
+          </div>
         </Link>
         <div className="space-y-1">
           {sidebarRoutes.map((route) => (

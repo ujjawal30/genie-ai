@@ -10,6 +10,7 @@ import { Montserrat } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Badge } from "@/components/ui/badge";
 import Sidebar from "@/components/shared/Sidebar";
 
 const montserrat = Montserrat({
@@ -54,7 +55,10 @@ const Topbar = ({ apiLimitCount, isPro }: TopbarProps) => {
         )}
       >
         <Image src="/logo.png" alt="logo" width={40} height={40} />
-        <h1 className="font-bold text-2xl">GenieAI</h1>
+        <div className="flex items-center gap-2">
+          <h1 className="font-bold text-2xl">GenieAI</h1>
+          {isPro && <Badge className="text-sm">PRO</Badge>}
+        </div>
       </Link>
 
       <div className="md:w-full md:flex md:justify-end">
