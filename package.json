@@ -30,6 +30,7 @@
     "react-hook-form": "^7.51.2",
     "react-markdown": "^9.0.1",
     "replicate": "^0.29.1",
+    "stripe": "^14.24.0",
     "tailwind-merge": "^2.2.2",
     "tailwindcss-animate": "^1.0.7",
     "typewriter-effect": "^2.21.0",
