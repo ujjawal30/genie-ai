@@ -16,9 +16,22 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 const ProModal = () => {
+  const router = useRouter();
   const { isOpen, onClose } = useProModal();
+
+  const handleUpgrade = async () => {
+    try {
+      const response = await axios.get("/api/stripe");
+
+      router.push(response.data.url);
+    } catch (error: any) {
+      console.log(error);
+    }
+  };
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -48,7 +61,7 @@ const ProModal = () => {
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
-          <Button className="w-full" size="lg">
+          <Button className="w-full" size="lg" onClick={handleUpgrade}>
             Upgrade
             <Zap size={16} className="ml-2" />
           </Button>

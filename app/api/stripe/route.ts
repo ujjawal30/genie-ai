@@ -32,7 +32,7 @@ export async function GET(req: Request) {
       cancel_url: settingsURL,
       payment_method_types: ["card"],
       mode: "subscription",
-      billing_address_collection: "auto",
+      billing_address_collection: "required",
       customer_email: user.email,
       line_items: [
         {
@@ -42,7 +42,7 @@ export async function GET(req: Request) {
               name: "GenieAI PRO",
               description: "Unlimited AI Generations",
             },
-            unit_amount: 999,
+            unit_amount: 99900,
             recurring: {
               interval: "month",
             },
