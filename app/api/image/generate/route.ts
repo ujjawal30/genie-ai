@@ -4,6 +4,7 @@ import OpenAI, { ClientOptions } from "openai";
 
 import {
   checkFreeTrailAvailability,
+  checkSubscription,
   incrementFreeTrailCount,
 } from "@/lib/actions";
 import Prompt from "@/lib/models/prompt.model";
@@ -27,7 +28,9 @@ export async function POST(req: Request) {
       return new NextResponse("Please provide prompt", { status: 400 });
 
     const isFreeTrailAvailable = await checkFreeTrailAvailability();
-    if (!isFreeTrailAvailable) {
+    const isProUser = await checkSubscription();
+
+    if (!isFreeTrailAvailable && !isProUser) {
       return new NextResponse("Free trails exhausted", { status: 403 });
     }
 
@@ -43,7 +46,7 @@ export async function POST(req: Request) {
       images: response.data.map((img) => img.url),
     };
 
-    await incrementFreeTrailCount();
+    !isProUser && (await incrementFreeTrailCount());
 
     await Prompt.create({
       userId: userId,

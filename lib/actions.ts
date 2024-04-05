@@ -5,6 +5,7 @@ import { auth } from "@clerk/nextjs";
 import connectToDB from "@/lib/mongoose";
 import User, { IUser } from "@/lib/models/user.model";
 import { MAX_FREE_TRAILS } from "@/constants";
+import Subscription from "./models/subscription.model";
 
 export const fetchUser = async (): Promise<IUser> => {
   try {
@@ -49,6 +50,27 @@ export const checkFreeTrailAvailability = async (): Promise<boolean> => {
     if (!userDetails || userDetails.limit < MAX_FREE_TRAILS) return true;
 
     return false;
+  } catch (error: any) {
+    console.log("[CHECK_FREE_TRAIL_ERROR] :>>", error);
+    throw error;
+  }
+};
+
+export const checkSubscription = async (): Promise<boolean> => {
+  const { userId } = auth();
+  if (!userId) return false;
+
+  try {
+    await connectToDB();
+
+    const userSubscription = await Subscription.findOne({ userId });
+    if (!userSubscription) return false;
+
+    const isPro =
+      userSubscription.priceId &&
+      userSubscription.currentPeriodEnd.getTime() > Date.now();
+
+    return !!isPro;
   } catch (error: any) {
     console.log("[CHECK_FREE_TRAIL_ERROR] :>>", error);
     throw error;

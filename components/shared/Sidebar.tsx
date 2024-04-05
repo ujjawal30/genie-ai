@@ -17,9 +17,10 @@ const montserrat = Montserrat({
 
 interface SidebarProps {
   apiLimitCount: number;
+  isPro: boolean;
 }
 
-const Sidebar = ({ apiLimitCount = 0 }: SidebarProps) => {
+const Sidebar = ({ apiLimitCount = 0, isPro = false }: SidebarProps) => {
   const pathname = usePathname();
 
   return (
@@ -51,7 +52,7 @@ const Sidebar = ({ apiLimitCount = 0 }: SidebarProps) => {
         </div>
       </div>
       <div className="py-2 px-4">
-        <FreeCounter apiLimitCounter={apiLimitCount} />
+        <FreeCounter apiLimitCounter={apiLimitCount} isPro={isPro} />
       </div>
     </div>
   );
