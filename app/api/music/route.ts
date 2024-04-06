@@ -18,8 +18,6 @@ export async function GET(req: Request) {
       .sort({ createdAt: "asc" })
       .select(["prompt", "media"]);
 
-    console.log("musicPrompts :>> ", musicPrompts);
-
     return NextResponse.json(musicPrompts);
   } catch (error: any) {
     console.log("[FETCH_MUSIC_ERROR] :>>", error);

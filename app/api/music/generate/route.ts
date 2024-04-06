@@ -35,8 +35,6 @@ export async function POST(req: Request) {
       { input: { prompt_a: prompt } }
     );
 
-    console.log("response :>> ", response);
-
     const sanitizedResponse = {
       prompt: prompt,
       media: response.audio,

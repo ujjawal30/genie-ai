@@ -72,7 +72,7 @@ export const checkSubscription = async (): Promise<boolean> => {
 
     return !!isPro;
   } catch (error: any) {
-    console.log("[CHECK_FREE_TRAIL_ERROR] :>>", error);
+    console.log("[CHECK_SUBSCRIPTION_ERROR] :>>", error);
     throw error;
   }
 };

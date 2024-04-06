@@ -18,8 +18,6 @@ export async function GET(req: Request) {
       .sort({ createdAt: "asc" })
       .select(["prompt", "response"]);
 
-    console.log("conversationPrompts :>> ", codePrompts);
-
     return NextResponse.json(codePrompts);
   } catch (error: any) {
     console.log("[FETCH_CODE_ERROR] :>>", error);

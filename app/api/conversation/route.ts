@@ -18,8 +18,6 @@ export async function GET(req: Request) {
       .sort({ createdAt: "asc" })
       .select(["prompt", "response"]);
 
-    console.log("conversationPrompts :>> ", conversationPrompts);
-
     return NextResponse.json(conversationPrompts);
   } catch (error: any) {
     console.log("[FETCH_CONVERSATION_ERROR] :>>", error);

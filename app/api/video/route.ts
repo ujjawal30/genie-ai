@@ -18,8 +18,6 @@ export async function GET(req: Request) {
       .sort({ createdAt: "asc" })
       .select(["prompt", "media"]);
 
-    console.log("videoPrompts :>> ", videoPrompts);
-
     return NextResponse.json(videoPrompts);
   } catch (error: any) {
     console.log("[FETCH_VIDEO_ERROR] :>>", error);

@@ -18,8 +18,6 @@ export async function GET(req: Request) {
       .sort({ createdAt: "asc" })
       .select(["prompt", "images"]);
 
-    console.log("imagesPrompts :>> ", imagesPrompts);
-
     return NextResponse.json(imagesPrompts);
   } catch (error: any) {
     console.log("[FETCH_IMAGE_ERROR] :>>", error);
