@@ -98,7 +98,7 @@ const PromptForm = ({ placeholder, from, onSubmit }: PromptFormProps) => {
                   </FormControl>
                   <SelectContent>
                     {amountOptions.map((option) => (
-                      <SelectItem value={option.value}>
+                      <SelectItem key={option.value} value={option.value}>
                         {option.label}
                       </SelectItem>
                     ))}
@@ -127,7 +127,9 @@ const PromptForm = ({ placeholder, from, onSubmit }: PromptFormProps) => {
                   </FormControl>
                   <SelectContent>
                     {resolutionOptions.map((option) => (
-                      <SelectItem value={option}>{option}</SelectItem>
+                      <SelectItem key={option} value={option}>
+                        {option}
+                      </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
