@@ -66,6 +66,10 @@ const MusicGenerationPage = () => {
       />
 
       <PromptForm placeholder="Type your prompt..." onSubmit={handleSubmit} />
+      <div className="mt-2 text-sm text-muted-foreground italic">
+        Note: The source URL of the generated music will only be valid for 24
+        hours.
+      </div>
 
       <div className="mt-8 space-y-2">
         <div className="space-y-4 mt-4">
