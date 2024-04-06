@@ -23,12 +23,17 @@ export async function POST(req: Request) {
     if (!prompt)
       return new NextResponse("Please provide prompt", { status: 400 });
 
-    const isFreeTrailAvailable = await checkFreeTrailAvailability();
-    const isProUser = await checkSubscription();
+    //************ Commented the below code for production. Uncomment to make unlimited generations functional for Pro user */
+    // const isFreeTrailAvailable = await checkFreeTrailAvailability();
+    // const isProUser = await checkSubscription();
 
-    if (!isFreeTrailAvailable && !isProUser) {
-      return new NextResponse("Free trails exhausted", { status: 403 });
-    }
+    // if (!isFreeTrailAvailable && !isProUser) {
+    //   return new NextResponse("Free trails exhausted", { status: 403 });
+    // }
+
+    const isFreeTrailAvailable = await checkFreeTrailAvailability();
+    if (!isFreeTrailAvailable)
+      return new NextResponse("Out of free trials", { status: 403 });
 
     const response: any = await replicate.run(
       "anotherjesse/zeroscope-v2-xl:9f747673945c62801b13b84701c783929c0ee784e4748ec062204894dda1a351",
@@ -40,7 +45,10 @@ export async function POST(req: Request) {
       media: response[0],
     };
 
-    !isProUser && (await incrementFreeTrailCount());
+    //************ Commented the below code for production. Uncomment to make unlimited generations functional for Pro user */
+    // !isProUser && (await incrementFreeTrailCount());
+
+    await incrementFreeTrailCount();
 
     await Prompt.create({
       userId: userId,

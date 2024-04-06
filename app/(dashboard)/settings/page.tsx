@@ -22,6 +22,10 @@ const SettingsPage = async () => {
             : "You are currently on a Free Tier. Upgrade to get more features and storage."}
         </div>
         <SubscriptionButton isPro={isPro} />
+        <div className="text-muted-foreground">
+          {isPro &&
+            "As this is a personal project and you have not made an actual purchase, you cannot make more than 5 generations even if you are on a Pro plan."}
+        </div>
       </div>
     </div>
   );

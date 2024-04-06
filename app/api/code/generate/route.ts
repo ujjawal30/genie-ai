@@ -34,12 +34,17 @@ export async function POST(req: Request) {
     if (!prompt)
       return new NextResponse("Please provide prompt", { status: 400 });
 
-    const isFreeTrailAvailable = await checkFreeTrailAvailability();
-    const isProUser = await checkSubscription();
+    //************ Commented the below code for production. Uncomment to make unlimited generations functional for Pro user */
+    // const isFreeTrailAvailable = await checkFreeTrailAvailability();
+    // const isProUser = await checkSubscription();
 
-    if (!isFreeTrailAvailable && !isProUser) {
-      return new NextResponse("Free trails exhausted", { status: 403 });
-    }
+    // if (!isFreeTrailAvailable && !isProUser) {
+    //   return new NextResponse("Free trails exhausted", { status: 403 });
+    // }
+
+    const isFreeTrailAvailable = await checkFreeTrailAvailability();
+    if (!isFreeTrailAvailable)
+      return new NextResponse("Out of free trials", { status: 403 });
 
     const response = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
@@ -57,7 +62,10 @@ export async function POST(req: Request) {
       response: response.choices[0].message.content,
     };
 
-    !isProUser && (await incrementFreeTrailCount());
+    //************ Commented the below code for production. Uncomment to make unlimited generations functional for Pro user */
+    // !isProUser && (await incrementFreeTrailCount());
+
+    await incrementFreeTrailCount();
 
     await Prompt.create({
       userId: userId,
