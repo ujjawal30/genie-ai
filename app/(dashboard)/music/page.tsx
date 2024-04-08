@@ -13,11 +13,13 @@ import Header from "@/components/shared/Header";
 import NoContent from "@/components/shared/NoContent";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Loader } from "@/components/ui/loader";
+import { useToast } from "@/components/ui/use-toast";
 
 const MusicGenerationPage = () => {
   const router = useRouter();
   const { user } = useUser();
   const { onOpen } = useProModal();
+  const { toast } = useToast();
 
   const [musicResponses, setMusicResponses] = useState<MediaResponse[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -51,6 +53,10 @@ const MusicGenerationPage = () => {
     } catch (error: any) {
       setMusicResponses(currentMusicResponses);
       console.log(error);
+      toast({
+        description: error?.response.data,
+        className: "bg-gray-900 text-white border-gray-950",
+      });
       error?.response?.status === 403 && onOpen();
     } finally {
       router.refresh();
